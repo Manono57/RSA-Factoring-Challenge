@@ -5,40 +5,28 @@ Factorize numbers in a file into a product of two prime numbers
 import sys
 
 
-def is_prime(n):
-    """Check if a number is prime."""
-    if n <= 1:
-        return False
-    if n <= 3:
-        return True
-    if n % 2 == 0 or n % 3 == 0:
-        return False
-    i = 5
-    while i * i <= n:
-        if n % i == 0 or n % (i + 2) == 0:
-            return False
-        i += 6
-    return True
-
-
 def factorize():
     """
-    A function to search a file and factorize the given set of numbers into two prime numbers (format n = p*q)
+    A function to search file and factorize the given set of numbers into two prime numbers (format n = p*q)
     """
     try:
         file = sys.argv[1]
         with open(file) as f:
             for line_number in f:
                 line_number = int(line_number)
-                for i in range(2, line_number // 2 + 1):
-                    if line_number % i == 0 and is_prime(i) and is_prime(line_number // i):
-                        print("{} = {} * {}".format(line_number, i, line_number // i))
+                if line_number % 2 == 0:
+                        print("{}={}*{}".format(line_number, line_number // 2, 2))
+                        continue
+                i = 3
+                while i < line_number // 2:
+                    if line_number % i == 0:
+                        print("{}={}*{}".format(line_number, line_number // i, i))
                         break
-                else:
-                    print("{} = {} * {}".format(line_number, line_number, 1))
-    except (IndexError, FileNotFoundError):
+                    i = i + 2
+                if i == (line_number // 2) + 1:
+                    print("{}={}*{}".format(line_number, line_number, 1))
+    except (IndexError):
         pass
 
 
-if __name__ == "__main__":
-    factorize()
+factorize()
